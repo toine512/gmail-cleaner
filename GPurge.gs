@@ -122,8 +122,13 @@ function execute_filter(filter)
 
 function Run()
 {
-  console.log('--- GMail Cleaner Filters starting ---')
-  let filters = Gmail.Users.Settings.Filters.list('me').filter;
-  filters.forEach(execute_filter);
-  console.log('--- All filters executed ---')
+  console.log('--- GMail Cleaner Filters starting ---');
+  let filters = Gmail.Users.Settings.Filters.list('me');
+  if(filters) {
+    filters = filters['filter'];
+    filters.forEach(execute_filter);
+    console.log('--- All filters executed ---');
+  } else {
+    console.log('--- No filters ---');
+  }
 }
