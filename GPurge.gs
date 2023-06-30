@@ -71,12 +71,14 @@ function search_messages(query)
 }
 
 function get_message_infos(id)
+// Returns "Subject (Date From) [GMail message id]" by message id
 {
-  let message = GmailApp.getMessageById(id)
-  return message.getSubject() + ' (' + message.getFrom() + ') [' + id + ']';
+  let message = GmailApp.getMessageById(id) // Apps Script GmailApp API is simpler than GMail REST API
+  return message.getSubject() + ' (' + message.getDate() + ' ' + message.getFrom() + ') [' + id + ']';
 }
 
 function execute_filter(filter)
+// Applies a filter using users.messages.batchModify (addLabelIds and removeLabelIds)
 // Forwarding is not supported!
 {
   if('criteria' in filter && 'action' in filter && 'addLabelIds' in filter['action'] && filter['action']['addLabelIds'].includes('TRASH')) // matches a trashing filter
@@ -89,7 +91,7 @@ function execute_filter(filter)
     }
 
     console.info('Executing filter ' + query);
-    console.log('id: ' + filter['id'] + ')');
+    console.log('id: ' + filter['id']);
 
     let to_trash = search_messages(query)
 
@@ -121,6 +123,7 @@ function execute_filter(filter)
 }
 
 function Run()
+// USE THIS FUNCTION TO RUN THE SCRIPT
 {
   console.log('--- GMail Cleaner Filters starting ---');
   let filters = Gmail.Users.Settings.Filters.list('me');
