@@ -1,3 +1,5 @@
+// version 1.1
+
 function prepare_query(criteria) 
 // Negated query and chats not supported.
 {
